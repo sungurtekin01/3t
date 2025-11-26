@@ -94,5 +94,7 @@ const styles = StyleSheet.create({
     color: colors.textWhite,
     fontSize: typography.fontSize.large,
     fontWeight: typography.fontWeight.bold,
+    textAlign: 'center',
+    flex: 1,
   },
 });
