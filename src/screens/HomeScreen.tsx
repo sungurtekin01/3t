@@ -1,17 +1,31 @@
-import { StyleSheet, View } from 'react-native';
-import { ThemeText } from '../components/ThemeText';
-import { TodoCount } from '../components/TodoCount/TodoCount';
-import { useTheme } from '../hooks/useTheme';
+import { StyleSheet, Text, View } from 'react-native';
+import { PrimaryButton } from '../components/PrimaryButton';
+import { colors } from '../theme';
 
 export function HomeScreen() {
-  const theme = useTheme();
-
   return (
-    <View
-      style={[styles.container, { backgroundColor: theme.backgroundColor }]}
-    >
-      <ThemeText style={styles.text}>Hello World!</ThemeText>
-      <TodoCount />
+    <View style={styles.container}>
+      <Text style={styles.title}>3T - Milestone 1 Test</Text>
+      <Text style={styles.subtitle}>Design System & PrimaryButton</Text>
+
+      <PrimaryButton
+        title="1 Player"
+        onPress={() => console.log('1 Player pressed')}
+        accessibilityLabel="One player game"
+      />
+
+      <PrimaryButton
+        title="2 Players"
+        onPress={() => console.log('2 Players pressed')}
+        accessibilityLabel="Two player game"
+      />
+
+      <View style={styles.statusContainer}>
+        <Text style={styles.statusText}>✅ Design System Created</Text>
+        <Text style={styles.statusText}>✅ Theme Exports Working</Text>
+        <Text style={styles.statusText}>✅ PrimaryButton Component</Text>
+        <Text style={styles.statusText}>✅ Press Animations Active</Text>
+      </View>
     </View>
   );
 }
@@ -19,12 +33,32 @@ export function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F0F8FF',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 16,
+    padding: 20,
   },
-  text: {
-    fontSize: 20,
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: colors.textPrimary,
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: colors.textPrimary,
+    marginBottom: 40,
+  },
+  statusContainer: {
+    marginTop: 40,
+    padding: 20,
+    backgroundColor: colors.white,
+    borderRadius: 15,
+    alignItems: 'flex-start',
+  },
+  statusText: {
+    fontSize: 14,
+    color: colors.textPrimary,
+    marginVertical: 4,
   },
 });
