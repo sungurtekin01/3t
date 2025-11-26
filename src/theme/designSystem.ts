@@ -5,9 +5,9 @@
  */
 
 export const colors = {
-  // Primary brand colors
-  primary: '#FF6347',
-  primaryShadow: '#C44D38',
+  // Primary brand colors (light blue arcade style)
+  primary: '#4FC3F7',
+  primaryShadow: '#2196F3',
 
   // Game symbols
   xSymbol: '#3498DB',

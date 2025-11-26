@@ -27,12 +27,12 @@ export function MainMenuScreen() {
 
         <View style={styles.buttonContainer}>
           <PrimaryButton
-            title="1 Player"
+            title="1P"
             onPress={handleSinglePlayer}
             accessibilityLabel="One player game"
           />
           <PrimaryButton
-            title="2 Players"
+            title="2P"
             onPress={handleMultiPlayer}
             accessibilityLabel="Two player game"
           />
