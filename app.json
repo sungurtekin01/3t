@@ -1,19 +1,19 @@
 {
   "expo": {
-    "name": "My App",
-    "slug": "my-app",
-    "owner": "willowtreeapps",
+    "name": "3T",
+    "slug": "3t",
+    "owner": "sungurterkin",
     "version": "1.0.0",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "3t",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "appleTeamId": "7UMFPW78PV",
-      "bundleIdentifier": "com.jpmigueldriver.myapp",
+      "appleTeamId": "",
+      "bundleIdentifier": "com.sungurtekin.3t",
       "config": {
         "usesNonExemptEncryption": false
       }
@@ -27,9 +27,10 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.jpmigueldriver.myapp"
+      "package": "com.sungurtekin.3t"
     },
     "plugins": [
+      "expo-router",
       "expo-font",
       [
         "expo-splash-screen",

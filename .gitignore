@@ -55,3 +55,6 @@ yarn-error.*
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+.gemini/
+gha-creds-*.json
