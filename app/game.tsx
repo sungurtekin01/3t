@@ -4,6 +4,7 @@ import { SafeAreaView, StyleSheet, View } from 'react-native';
 
 import { GameBoard } from '../src/components/GameBoard';
 import { GameHeader } from '../src/components/GameHeader';
+import { GameOverModal } from '../src/components/GameOverModal';
 import { PrimaryButton } from '../src/components/PrimaryButton';
 import { useGameStore } from '../src/store/gameStore';
 import { colors, spacing } from '../src/theme';
@@ -39,13 +40,6 @@ export default function GameScreen() {
         <GameBoard />
 
         <View style={styles.buttonContainer}>
-          {gameOver && (
-            <PrimaryButton
-              title="Play Again"
-              onPress={handlePlayAgain}
-              accessibilityLabel="Play another game"
-            />
-          )}
           <PrimaryButton
             title="Back to Menu"
             onPress={handleBackToMenu}
@@ -53,6 +47,12 @@ export default function GameScreen() {
           />
         </View>
       </View>
+
+      <GameOverModal
+        visible={gameOver}
+        onPlayAgain={handlePlayAgain}
+        onMainMenu={handleBackToMenu}
+      />
     </SafeAreaView>
   );
 }

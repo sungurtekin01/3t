@@ -58,7 +58,7 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   // Make a move
   makeMove: (index: number) => {
-    const { board, currentPlayer, gameOver } = get();
+    const { board, currentPlayer, gameOver, mode } = get();
 
     // Don't allow moves if game is over or cell is occupied
     if (gameOver || board[index] !== null) {
@@ -79,6 +79,38 @@ export const useGameStore = create<GameState>((set, get) => ({
       gameOver: result !== null,
       winner: result,
     });
+
+    // AI opponent logic for single-player mode
+    if (mode === 'single' && currentPlayer === 'X' && result === null) {
+      // AI plays after human (X) with a delay
+      setTimeout(() => {
+        const state = get();
+        if (state.gameOver) return;
+
+        // Find all empty cells
+        const emptyCells = state.board
+          .map((cell, idx) => (cell === null ? idx : -1))
+          .filter((idx) => idx !== -1);
+
+        // Make a random move
+        if (emptyCells.length > 0) {
+          const randomIndex =
+            emptyCells[Math.floor(Math.random() * emptyCells.length)];
+
+          const aiBoard = [...state.board];
+          aiBoard[randomIndex] = 'O';
+
+          const aiResult = checkWinner(aiBoard);
+
+          set({
+            board: aiBoard,
+            currentPlayer: 'X',
+            gameOver: aiResult !== null,
+            winner: aiResult,
+          });
+        }
+      }, 500);
+    }
   },
 
   // Reset the game
