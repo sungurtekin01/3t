@@ -1,34 +1,57 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { useEffect } from 'react';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 
+import { GameBoard } from '../src/components/GameBoard';
+import { GameHeader } from '../src/components/GameHeader';
 import { PrimaryButton } from '../src/components/PrimaryButton';
+import { useGameStore } from '../src/store/gameStore';
 import { colors, spacing } from '../src/theme';
 
 export default function GameScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
-  const mode = params.mode as string;
+  const mode = params.mode as 'single' | 'multi';
+
+  const setMode = useGameStore((state) => state.setMode);
+  const resetGame = useGameStore((state) => state.resetGame);
+  const gameOver = useGameStore((state) => state.gameOver);
+
+  // Set game mode and reset when screen loads
+  useEffect(() => {
+    setMode(mode || 'multi');
+    resetGame();
+  }, [mode, setMode, resetGame]);
+
+  const handlePlayAgain = () => {
+    resetGame();
+  };
+
+  const handleBackToMenu = () => {
+    resetGame();
+    router.back();
+  };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Text style={styles.title}>Game Screen</Text>
-        <Text style={styles.subtitle}>
-          Mode: {mode === 'single' ? '1 Player' : '2 Players'}
-        </Text>
+        <GameHeader />
+        <GameBoard />
 
-        <View style={styles.placeholder}>
-          <Text style={styles.placeholderText}>🎮</Text>
-          <Text style={styles.placeholderSubtext}>
-            Game board will go here
-          </Text>
+        <View style={styles.buttonContainer}>
+          {gameOver && (
+            <PrimaryButton
+              title="Play Again"
+              onPress={handlePlayAgain}
+              accessibilityLabel="Play another game"
+            />
+          )}
+          <PrimaryButton
+            title="Back to Menu"
+            onPress={handleBackToMenu}
+            accessibilityLabel="Back to main menu"
+          />
         </View>
-
-        <PrimaryButton
-          title="Back to Menu"
-          onPress={() => router.back()}
-          accessibilityLabel="Back to main menu"
-        />
       </View>
     </SafeAreaView>
   );
@@ -42,31 +65,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: spacing.lg,
+    justifyContent: 'space-between',
+    paddingVertical: spacing.xl,
   },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: colors.textPrimary,
-    marginBottom: spacing.sm,
-  },
-  subtitle: {
-    fontSize: 20,
-    color: colors.textPrimary,
-    marginBottom: spacing.xxl,
-  },
-  placeholder: {
+  buttonContainer: {
+    width: '100%',
     alignItems: 'center',
-    marginBottom: spacing.xxl,
-  },
-  placeholderText: {
-    fontSize: 80,
-    marginBottom: spacing.md,
-  },
-  placeholderSubtext: {
-    fontSize: 16,
-    color: colors.textPrimary,
-    opacity: 0.6,
+    gap: spacing.sm,
   },
 });
