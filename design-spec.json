@@ -1,0 +1,55 @@
+{
+  "summary": "This UX/UI design provides a comprehensive blueprint for the '3T' Children's Tic Tac Toe app on React Native. The design focuses on creating a premium, engaging, and intuitive experience for young children, directly aligning with the BRD's objectives. We achieve this through a vibrant, friendly visual language, streamlined user flows, and delightful micro-interactions. The architecture is built on a scalable design system using React Native StyleSheet, ensuring consistency, maintainability, and a polished final product that fosters learning and fun.",
+  "screens": [
+    {
+      "name": "MainMenuScreen",
+      "description": "The entry point of the app, designed to be extremely simple and inviting for young children. It presents two clear, large, and visually distinct options to start a game, eliminating confusion and reducing cognitive load. The background is playful and static to keep the focus on the primary actions.",
+      "wireframe": "<SafeAreaView style={styles.safeArea}>\n  <View style={styles.container}>\n    <Image source={{uri: 'logo_3t'}} style={styles.logo} accessibilityLabel=\"3T Game Logo\" />\n    <Text style={styles.tagline}>A Fun Game of Noughts & Crosses!</Text>\n    <View style={styles.buttonContainer}>\n      <PrimaryButton title=\"1 Player\" icon=\"user\" onPress={() => navigate('Game', { mode: 'single' })} />\n      <PrimaryButton title=\"2 Players\" icon=\"users\" onPress={() => navigate('Game', { mode: 'multi' })} />\n    </View>\n  </View>\n</SafeAreaView>",
+      "components": [
+        {
+          "name": "PrimaryButton",
+          "description": "A large, touch-friendly button used for the main navigation choices. The design is soft, colorful, and includes a subtle shadow to make it feel tangible and press-able. An icon accompanies the text to aid comprehension for pre-readers.",
+          "code_snippet": "{\n  \"container\": {\n    \"flexDirection\": \"row\",\n    \"alignItems\": \"center\",\n    \"justifyContent\": \"center\",\n    \"backgroundColor\": \"#FF6347\",\n    \"paddingVertical\": 20,\n    \"paddingHorizontal\": 40,\n    \"borderRadius\": 100,\n    \"marginVertical\": 10,\n    \"width\": \"80%\",\n    \"shadowColor\": \"#C44D38\",\n    \"shadowOffset\": { \"width\": 0, \"height\": 6 },\n    \"shadowOpacity\": 1,\n    \"shadowRadius\": 0,\n    \"elevation\": 8\n  },\n  \"icon\": {\n    \"width\": 30,\n    \"height\": 30,\n    \"marginRight\": 15,\n    \"tintColor\": \"#FFFFFF\"\n  },\n  \"text\": {\n    \"color\": \"#FFFFFF\",\n    \"fontSize\": 28,\n    \"fontFamily\": \"system-font-rounded-bold\",\n    \"fontWeight\": \"700\"\n  }\n}",
+          "notes": "On press, the button should animate scaling down to 0.95 using `Animated.spring` for a bouncy, responsive feel. Use a `Pressable` component to manage this state. Accessibility label should combine icon and text, e.g., 'One player game'."
+        },
+        {
+          "name": "Logo",
+          "description": "The application's primary logo. It should be friendly, colorful, and memorable, setting the tone for the entire app experience.",
+          "code_snippet": "{\n  \"logo\": {\n    \"width\": 150,\n    \"height\": 150,\n    \"resizeMode\": \"contain\",\n    \"marginBottom\": 16\n  }\n}",
+          "notes": "The logo can have a subtle, slow-drifting animation using `Animated.loop` to add a touch of life to the main menu without being distracting."
+        }
+      ]
+    },
+    {
+      "name": "GameScreen",
+      "description": "The core gameplay screen. It features a large, clear 3x3 grid, a visual indicator for whose turn it is, and the friendly AI assistant. The design prioritizes focus on the game board, using a clean layout and minimal distractions.",
+      "wireframe": "<SafeAreaView style={styles.safeArea}>\n  <View style={styles.container}>\n    <GameHeader turn=\"player1\" />\n    <GameBoard boardState={board} onCellPress={handlePress} />\n    <AIAssistant message=\"Try the corner!\" />\n    <GameOverModal isVisible={isGameOver} result=\"win\" />\n  </View>\n</SafeAreaView>",
+      "components": [
+        {
+          "name": "GameBoardCell",
+          "description": "An individual, pressable cell within the 3x3 game grid. It has a clean, contained design and provides clear visual feedback when pressed. When a player makes a move, the 'X' or 'O' appears with a satisfying pop-in animation.",
+          "code_snippet": "{\n  \"cell\": {\n    \"width\": 100,\n    \"height\": 100,\n    \"backgroundColor\": \"#FFFFFF\",\n    \"borderRadius\": 20,\n    \"alignItems\": \"center\",\n    \"justifyContent\": \"center\",\n    \"margin\": 8,\n    \"shadowColor\": \"#000000\",\n    \"shadowOffset\": { \"width\": 0, \"height\": 2 },\n    \"shadowOpacity\": 0.1,\n    \"shadowRadius\": 4,\n    \"elevation\": 5\n  },\n  \"symbol\": {\n    \"fontSize\": 64,\n    \"fontWeight\": \"bold\"\n  },\n  \"xSymbol\": {\n    \"color\": \"#3498DB\"\n  },\n  \"oSymbol\": {\n    \"color\": \"#E74C3C\"\n  }\n}",
+          "notes": "Use `LayoutAnimation.spring()` when the 'X' or 'O' symbol appears to create a natural, bouncy entrance. The cell should be a `Pressable` component. For accessibility, its state ('X', 'O', or 'empty') should be announced."
+        },
+        {
+          "name": "GameHeader",
+          "description": "Displays whose turn it is, using both text and a visual marker (e.g., highlighting the 'X' or 'O' icon). This provides an immediate, intuitive status update for the player.",
+          "code_snippet": "{\n  \"headerContainer\": {\n    \"padding\": 20,\n    \"alignItems\": \"center\"\n  },\n  \"headerText\": {\n    \"fontSize\": 24,\n    \"fontWeight\": \"600\",\n    \"color\": \"#333333\",\n    \"marginBottom\": 8\n  },\n  \"turnIndicator\": {\n    \"width\": 50,\n    \"height\": 50\n  }\n}",
+          "notes": "Animate the transition between turns. For example, the turn indicator could slide or fade between the 'X' and 'O' player sides. This provides clear, non-verbal feedback on the state change."
+        },
+        {
+          "name": "AIAssistant",
+          "description": "A small, friendly mascot character that provides encouraging tips. This component embodies the educational objective from the BRD, making the AI feel like a helpful friend rather than a cold opponent.",
+          "code_snippet": "{\n  \"container\": {\n    \"position\": \"absolute\",\n    \"bottom\": 20,\n    \"left\": 20,\n    \"alignItems\": \"center\"\n  },\n  \"mascotImage\": {\n    \"width\": 80,\n    \"height\": 80\n  },\n  \"speechBubble\": {\n    \"backgroundColor\": \"#FFFFFF\",\n    \"paddingHorizontal\": 15,\n    \"paddingVertical\": 10,\n    \"borderRadius\": 15,\n    \"marginTop\": -10,\n    \"maxWidth\": 150,\n    \"elevation\": 4\n  },\n  \"speechText\": {\n    \"fontSize\": 14,\n    \"color\": \"#333333\"\n  }\n}",
+          "notes": "The mascot should have idle animations (e.g., blinking) to feel alive. When a new tip appears, the speech bubble should pop in using an `Animated.spring` animation. Tips should be timed to appear when a user is idle for a few seconds."
+        },
+        {
+          "name": "GameOverModal",
+          "description": "A modal overlay that appears at the end of a game. It clearly states the outcome (Win, Lose, Draw) with celebratory or encouraging visuals and provides simple options to play again or return to the menu.",
+          "code_snippet": "{\n  \"backdrop\": {\n    \"position\": \"absolute\",\n    \"top\": 0,\n    \"bottom\": 0,\n    \"left\": 0,\n    \"right\": 0,\n    \"backgroundColor\": \"rgba(0, 0, 0, 0.6)\"\n  },\n  \"modalContainer\": {\n    \"backgroundColor\": \"#F0F8FF\",\n    \"borderRadius\": 30,\n    \"padding\": 30,\n    \"alignItems\": \"center\",\n    \"marginHorizontal\": 40,\n    \"shadowColor\": \"#000\",\n    \"shadowOffset\": { \"width\": 0, \"height\": 4 },\n    \"shadowOpacity\": 0.3,\n    \"shadowRadius\": 10,\n    \"elevation\": 20\n  },\n  \"resultText\": {\n    \"fontSize\": 48,\n    \"fontWeight\": \"bold\",\n    \"marginBottom\": 10\n  },\n  \"winText\": {\n    \"color\": \"#2ECC71\"\n  },\n  \"drawText\": {\n    \"color\": \"#F39C12\"\n  }\n}",
+          "notes": "The modal should animate in, scaling up from the center of the screen. For a win, confetti particles could animate using `react-native-confetti-cannon`. For a draw or loss, the animations should be more gentle and encouraging. All text and actions must be accessible."
+        }
+      ]
+    }
+  ]
+}
