@@ -49,22 +49,28 @@ export const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   };
 
   return (
-    <Pressable
-      onPress={onPress}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      accessibilityLabel={accessibilityLabel || title}
-      accessibilityRole="button"
-    >
-      <Animated.View style={[styles.container, animatedStyle]}>
-        {icon && <View style={styles.iconContainer}>{icon}</View>}
-        <Text style={styles.text}>{title}</Text>
-      </Animated.View>
-    </Pressable>
+    <View style={styles.buttonWrapper}>
+      <Pressable
+        onPress={onPress}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        accessibilityLabel={accessibilityLabel || title}
+        accessibilityRole="button"
+      >
+        <Animated.View style={[styles.container, animatedStyle]}>
+          {icon && <View style={styles.iconContainer}>{icon}</View>}
+          <Text style={styles.text}>{title}</Text>
+        </Animated.View>
+      </Pressable>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  buttonWrapper: {
+    width: '100%',
+    alignItems: 'center',
+  },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
