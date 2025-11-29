@@ -1,13 +1,14 @@
 import { create } from 'zustand';
+import { AICoach } from '../utils/aiCoach';
 
-type Player = 'X' | 'O';
-type CellValue = Player | null;
-type Board = [
+export type Player = 'X' | 'O';
+export type CellValue = Player | null;
+export type Board = [
   [CellValue, CellValue, CellValue],
   [CellValue, CellValue, CellValue],
   [CellValue, CellValue, CellValue]
 ];
-type GameStatus = 'playing' | 'X_WINS' | 'O_WINS' | 'DRAW';
+export type GameStatus = 'playing' | 'X_WINS' | 'O_WINS' | 'DRAW';
 
 interface GameState {
   board: Board;
@@ -19,6 +20,7 @@ interface GameState {
 
   // Actions
   makeMove: (row: number, col: number) => void;
+  makeAIMove: () => void;
   resetGame: () => void;
   setGameMode: (mode: 'vs-friend' | 'vs-coach') => void;
   setHint: (cell: [number, number] | null) => void;
@@ -70,10 +72,10 @@ export const useGameStore = create<GameState>((set, get) => ({
   isAIThinking: false,
 
   makeMove: (row, col) => {
-    const { board, currentPlayer, gameStatus } = get();
+    const { board, currentPlayer, gameStatus, gameMode, isAIThinking } = get();
 
     // Validate move
-    if (gameStatus !== 'playing' || board[row][col] !== null) return;
+    if (gameStatus !== 'playing' || board[row][col] !== null || isAIThinking) return;
 
     // Update board
     const newBoard = board.map((r, i) =>
@@ -90,6 +92,45 @@ export const useGameStore = create<GameState>((set, get) => ({
       gameStatus: newStatus,
       hintCell: null, // Clear hint after move
     });
+
+    // Trigger AI move if playing vs coach and game is still ongoing
+    if (gameMode === 'vs-coach' && newStatus === 'playing') {
+      get().makeAIMove();
+    }
+  },
+
+  makeAIMove: () => {
+    const { board, currentPlayer, gameStatus } = get();
+
+    // Only make move if it's AI's turn (O) and game is playing
+    if (gameStatus !== 'playing' || currentPlayer !== 'O') return;
+
+    // Set AI thinking state
+    set({ isAIThinking: true });
+
+    // Calculate best move
+    const aiMove = AICoach.getBestMove(board, 'O');
+
+    if (aiMove) {
+      // Update board with AI move
+      const newBoard = board.map((r, i) =>
+        r.map((cell, j) => (i === aiMove.row && j === aiMove.col ? 'O' : cell))
+      ) as Board;
+
+      // Check win/draw
+      const newStatus = checkGameStatus(newBoard, 'O');
+
+      // Update state
+      set({
+        board: newBoard,
+        currentPlayer: 'X',
+        gameStatus: newStatus,
+        isAIThinking: false,
+      });
+    } else {
+      // No valid move found (shouldn't happen)
+      set({ isAIThinking: false });
+    }
   },
 
   resetGame: () => set({
