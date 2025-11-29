@@ -108,29 +108,41 @@ export const useGameStore = create<GameState>((set, get) => ({
     // Set AI thinking state
     set({ isAIThinking: true });
 
-    // Calculate best move
-    const aiMove = AICoach.getBestMove(board, 'O');
+    // Add delay for natural feel (400ms)
+    setTimeout(() => {
+      const currentBoard = get().board;
+      const currentStatus = get().gameStatus;
 
-    if (aiMove) {
-      // Update board with AI move
-      const newBoard = board.map((r, i) =>
-        r.map((cell, j) => (i === aiMove.row && j === aiMove.col ? 'O' : cell))
-      ) as Board;
+      // Double-check game is still in valid state
+      if (currentStatus !== 'playing') {
+        set({ isAIThinking: false });
+        return;
+      }
 
-      // Check win/draw
-      const newStatus = checkGameStatus(newBoard, 'O');
+      // Calculate best move
+      const aiMove = AICoach.getBestMove(currentBoard, 'O');
 
-      // Update state
-      set({
-        board: newBoard,
-        currentPlayer: 'X',
-        gameStatus: newStatus,
-        isAIThinking: false,
-      });
-    } else {
-      // No valid move found (shouldn't happen)
-      set({ isAIThinking: false });
-    }
+      if (aiMove) {
+        // Update board with AI move
+        const newBoard = currentBoard.map((r, i) =>
+          r.map((cell, j) => (i === aiMove.row && j === aiMove.col ? 'O' : cell))
+        ) as Board;
+
+        // Check win/draw
+        const newStatus = checkGameStatus(newBoard, 'O');
+
+        // Update state
+        set({
+          board: newBoard,
+          currentPlayer: 'X',
+          gameStatus: newStatus,
+          isAIThinking: false,
+        });
+      } else {
+        // No valid move found (shouldn't happen)
+        set({ isAIThinking: false });
+      }
+    }, 400);
   },
 
   resetGame: () => set({
