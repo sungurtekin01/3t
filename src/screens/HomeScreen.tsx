@@ -11,7 +11,7 @@ export function HomeScreen() {
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.backgroundColor }]}>
       <View style={styles.container}>
         <Text style={styles.mascot}>🎮</Text>
-        <Text style={styles.title}>3T</Text>
+        <Text style={[styles.title, { color: theme.primaryButton }]}>3T</Text>
         <Text style={[styles.subtitle]}>Tic Tac Toe Fun!</Text>
 
         <View style={styles.buttonContainer}>
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 80,
     fontWeight: 'bold',
-    color: '#FFFFFF',
     textAlign: 'center',
     textShadowColor: 'rgba(0, 0, 0, 0.15)',
     textShadowOffset: { width: 0, height: 4 },
