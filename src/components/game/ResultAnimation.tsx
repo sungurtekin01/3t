@@ -7,17 +7,30 @@ interface ResultAnimationProps {
   type: AnimationType;
 }
 
-const ANIMATION_SOURCE = {
-  win: require('../../../assets/lottie/win.json'),
-  draw: require('../../../assets/lottie/draw.json'),
-  lose: require('../../../assets/lottie/lose.json'),
-};
+// Import JSON files directly
+const winAnimation = require('../../../assets/lottie/win.json');
+const drawAnimation = require('../../../assets/lottie/draw.json');
+const loseAnimation = require('../../../assets/lottie/lose.json');
 
 export function ResultAnimation({ type }: ResultAnimationProps) {
+  // Determine which animation to show
+  const getAnimationSource = () => {
+    switch (type) {
+      case 'win':
+        return winAnimation;
+      case 'draw':
+        return drawAnimation;
+      case 'lose':
+        return loseAnimation;
+      default:
+        return winAnimation;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <LottieView
-        source={ANIMATION_SOURCE[type]}
+        source={getAnimationSource()}
         autoPlay
         loop={false}
         style={styles.animation}
