@@ -55,7 +55,7 @@ export function GameBoardCell({ value, onPress, isHinted = false, cellSize }: Ga
               { color: value === 'X' ? theme.markerX : theme.markerO },
             ]}
           >
-            {value === 'X' ? '✕' : '⭕'}
+            {value === 'X' ? '🌙' : '⭐'}
           </Text>
         </Animated.View>
       )}

@@ -1,0 +1,62 @@
+{
+  "summary": "This UX/UI design provides a comprehensive framework for '3T', a Tic Tac Toe app for young children, built on React Native. The design prioritizes an intuitive, engaging, and premium user experience through a playful visual language, rewarding micro-interactions, and a simple, frictionless user flow. The architecture is based on a scalable design system using React Native's StyleSheet API, ensuring consistency and maintainability. Key UX principles, such as reducing cognitive load and providing immediate feedback, are central to the design, making it accessible and fun for the target audience.",
+  "screens": [
+    {
+      "name": "HomeScreen",
+      "description": "The entry point of the application. It's designed to be welcoming and extremely simple for a child to use independently. It features large, clear buttons for selecting the game mode, accompanied by a friendly app mascot to create an engaging atmosphere.",
+      "wireframe": "<SafeAreaView style={styles.safeArea}>\n  <View style={styles.container}>\n    <Image source={{uri: 'mascot_happy'}} style={styles.mascot} />\n    <Text style={styles.title}>3T</Text>\n    <Text style={styles.subtitle}>Tic Tac Toe Fun!</Text>\n    <View style={styles.buttonContainer}>\n      <PrimaryButton title=\"Play vs. Friend\" icon=\"users\" onPress={() => { /* Navigate to 2-Player Game */ }} />\n      <PrimaryButton title=\"Play vs. Coach\" icon=\"robot\" onPress={() => { /* Navigate to 1-Player Game */ }} />\n    </View>\n  </View>\n</SafeAreaView>",
+      "components": [
+        {
+          "name": "PrimaryButton",
+          "description": "A large, tactile, and friendly button used for the main calls-to-action. The design uses soft corners, a subtle gradient, and a gentle shadow to give it a premium, 'pressable' feel. An animated press-down effect provides immediate feedback.",
+          "code_snippet": "{\n  \"button\": {\n    \"backgroundColor\": \"#7F5AF0\",\n    \"borderRadius\": 24,\n    \"paddingVertical\": 20,\n    \"paddingHorizontal\": 30,\n    \"flexDirection\": \"row\",\n    \"alignItems\": \"center\",\n    \"justifyContent\": \"center\",\n    \"marginBottom\": 16,\n    \"shadowColor\": \"#6247AA\",\n    \"shadowOffset\": {\n      \"width\": 0,\n      \"height\": 6\n    },\n    \"shadowOpacity\": 0.2,\n    \"shadowRadius\": 8,\n    \"elevation\": 10\n  },\n  \"buttonText\": {\n    \"color\": \"#FFFFFF\",\n    \"fontSize\": 22,\n    \"fontWeight\": \"bold\",\n    \"marginLeft\": 12\n  }\n}",
+          "notes": "On press, use `Animated.spring` to slightly scale the button down to 0.98 and reduce shadow opacity, creating a satisfying physical feedback loop. Use a child-friendly icon set."
+        },
+        {
+          "name": "TitleText",
+          "description": "The main application title, styled to be playful and prominent. It uses a rounded, bold font with a subtle text shadow to make it pop from the background.",
+          "code_snippet": "{\n  \"title\": {\n    \"fontSize\": 80,\n    \"fontWeight\": \"bold\",\n    \"color\": \"#FFFFFF\",\n    \"textAlign\": \"center\",\n    \"textShadowColor\": \"rgba(0, 0, 0, 0.15)\",\n    \"textShadowOffset\": { \"width\": 0, \"height\": 4 },\n    \"textShadowRadius\": 6\n  },\n  \"subtitle\": {\n    \"fontSize\": 24,\n    \"color\": \"#E0D5FF\",\n    \"textAlign\": \"center\",\n    \"marginTop\": -10\n  }\n}",
+          "notes": "A custom, rounded font is recommended to align with the playful aesthetic. Ensure high contrast against the background for readability."
+        }
+      ]
+    },
+    {
+      "name": "GameBoardScreen",
+      "description": "The core game screen where the Tic Tac Toe board is displayed. The design focuses on clarity, with a large grid, clear player turn indicators, and a space for the AI Coach's hints to appear subtly. The UI is clean to minimize distraction and keep the focus on the game.",
+      "wireframe": "<View style={styles.container}>\n  <PlayerTurnIndicator activePlayer=\"X\" />\n  <View style={styles.board}>\n    {/* Map over a 3x3 grid data structure to render cells */}\n    <GameBoardCell value=\"X\" onPress={() => {}} />\n    <GameBoardCell value={null} onPress={() => {}} isHinted={true} />\n    <GameBoardCell value=\"O\" onPress={() => {}} />\n    {/* ... more cells ... */}\n  </View>\n  <CoachHint text=\"Try this spot!\" />\n</View>",
+      "components": [
+        {
+          "name": "GameBoardCell",
+          "description": "An individual, pressable cell within the 3x3 grid. When empty, it has a subtle design. When filled, the 'X' or 'O' marker appears with a delightful animation. A hinted state adds a glowing effect to guide the user.",
+          "code_snippet": "{\n  \"cell\": {\n    \"width\": 100,\n    \"height\": 100,\n    \"backgroundColor\": \"#1A1238\",\n    \"borderRadius\": 20,\n    \"alignItems\": \"center\",\n    \"justifyContent\": \"center\",\n    \"margin\": 8\n  },\n  \"cellHinted\": {\n    \"shadowColor\": \"#A3F9A3\",\n    \"shadowOffset\": { \"width\": 0, \"height\": 0 },\n    \"shadowOpacity\": 1,\n    \"shadowRadius\": 15,\n    \"elevation\": 20\n  },\n  \"markerX\": {\n    \"color\": \"#FF7DE3\",\n    \"fontSize\": 64,\n    \"fontWeight\": \"bold\"\n  },\n  \"markerO\": {\n    \"color\": \"#7DF9FF\",\n    \"fontSize\": 64,\n    \"fontWeight\": \"bold\"\n  }\n}",
+          "notes": "Use `Animated.spring` when a marker is placed, animating its scale from 0.5 to 1 to create a satisfying 'pop' effect. The hint's shadow opacity can be animated in a loop to create a gentle 'pulse'."
+        },
+        {
+          "name": "PlayerTurnIndicator",
+          "description": "A visual component at the top of the screen that clearly indicates whose turn it is. The active player's icon is highlighted and enlarged to reduce cognitive load and eliminate confusion.",
+          "code_snippet": "{\n  \"container\": {\n    \"flexDirection\": \"row\",\n    \"justifyContent\": \"center\",\n    \"alignItems\": \"center\",\n    \"marginBottom\": 20\n  },\n  \"playerBox\": {\n    \"padding\": 16,\n    \"borderRadius\": 16,\n    \"marginHorizontal\": 10,\n    \"opacity\": 0.5,\n    \"transform\": [{ \"scale\": 0.9 }]\n  },\n  \"playerBoxActive\": {\n    \"opacity\": 1,\n    \"backgroundColor\": \"#241B4A\",\n    \"transform\": [{ \"scale\": 1.0 }]\n  },\n  \"playerText\": {\n    \"fontSize\": 48,\n    \"fontWeight\": \"bold\"\n  }\n}",
+          "notes": "Use `LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)` or `react-native-reanimated` to smoothly animate the transition between active and inactive states, enhancing the premium feel."
+        }
+      ]
+    },
+    {
+      "name": "GameOverModal",
+      "description": "A modal dialog that appears upon game completion. It clearly states the outcome (win, lose, or draw) and uses celebratory animations to create a rewarding experience, especially for the winner. It provides clear options to play again or return home.",
+      "wireframe": "<Modal visible={true} transparent={true} animationType=\"fade\">\n  <View style={styles.overlay}>\n    <Animated.View style={styles.modalContainer}>\n      <LottieView source={require('.../win-animation.json')} autoPlay loop={false} />\n      <Text style={styles.resultTitle}>You Won!</Text>\n      <Text style={styles.resultSubtitle}>Great game!</Text>\n      <PrimaryButton title=\"Play Again\" onPress={() => {}} />\n      <SecondaryButton title=\"Main Menu\" onPress={() => {}} />\n    </Animated.View>\n  </View>\n</Modal>",
+      "components": [
+        {
+          "name": "ModalContainer",
+          "description": "The main container for the modal content, designed to appear above a semi-transparent overlay, focusing the user's attention. Soft corners and a deep shadow give it a premium, layered appearance.",
+          "code_snippet": "{\n  \"overlay\": {\n    \"flex\": 1,\n    \"backgroundColor\": \"rgba(0, 0, 0, 0.7)\",\n    \"justifyContent\": \"center\",\n    \"alignItems\": \"center\"\n  },\n  \"modalContainer\": {\n    \"width\": \"90%\",\n    \"maxWidth\": 340,\n    \"backgroundColor\": \"#241B4A\",\n    \"borderRadius\": 30,\n    \"padding\": 32,\n    \"alignItems\": \"center\",\n    \"shadowColor\": \"#000\",\n    \"shadowOffset\": { \"width\": 0, \"height\": 10 },\n    \"shadowOpacity\": 0.3,\n    \"shadowRadius\": 30,\n    \"elevation\": 20\n  }\n}",
+          "notes": "The modal's entrance should be animated. Use `Animated.timing` to animate its opacity and scale, making it appear smoothly rather than abruptly. This enhances the user experience significantly."
+        },
+        {
+          "name": "ResultAnimation",
+          "description": "A component to display a rich, celebratory animation. Using a library like Lottie allows for complex, high-quality animations (confetti, fireworks, a dancing mascot) that are performant and elevate the design beyond standard React Native animations.",
+          "code_snippet": "{\n  \"animationContainer\": {\n    \"width\": 150,\n    \"height\": 150,\n    \"marginBottom\": 16\n  }\n}",
+          "notes": "This component would wrap a `lottie-react-native` element. Having different animations for win, lose, and draw states provides tailored emotional feedback, which is crucial for a children's app."
+        }
+      ]
+    }
+  ]
+}

@@ -17,7 +17,7 @@ export function PlayerTurnIndicator({ activePlayer }: PlayerTurnIndicatorProps) 
           activePlayer === 'X' && styles.playerBoxActive,
         ]}
       >
-        <Text style={[styles.playerText, { color: theme.markerX }]}>✕</Text>
+        <Text style={[styles.playerText, { color: theme.markerX }]}>🌙</Text>
       </View>
       <Animated.View entering={FadeIn} exiting={FadeOut}>
         <Text style={{ color: theme.textColor, fontSize: 18, marginHorizontal: 10 }}>
@@ -30,7 +30,7 @@ export function PlayerTurnIndicator({ activePlayer }: PlayerTurnIndicatorProps) 
           activePlayer === 'O' && styles.playerBoxActive,
         ]}
       >
-        <Text style={[styles.playerText, { color: theme.markerO }]}>⭕</Text>
+        <Text style={[styles.playerText, { color: theme.markerO }]}>⭐</Text>
       </View>
     </View>
   );
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 50,
   },
   playerBox: {
     padding: 16,
@@ -49,10 +49,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     opacity: 0.5,
     transform: [{ scale: 0.9 }],
+    borderWidth: 2,
+    borderColor: '#D0C4E8',
   },
   playerBoxActive: {
     opacity: 1,
-    backgroundColor: '#241B4A',
+    backgroundColor: '#E8DFF5',
+    borderColor: '#7F5AF0',
     transform: [{ scale: 1.0 }],
   },
   playerText: {

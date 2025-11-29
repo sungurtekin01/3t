@@ -1,0 +1,267 @@
+[
+  {
+    "milestone": "Milestone 1: Foundation & Home Screen",
+    "tickets": [
+      {
+        "title": "Initial Project Setup and Navigation",
+        "description": "Set up the React Native project structure, install essential libraries (e.g., navigation, lottie), and configure basic navigation to handle transitions between the Home screen and the future Game screen.",
+        "priority": "High",
+        "dependencies": [],
+        "acceptance_criteria": [
+          "React Native project is initialized and runnable on iOS and Android simulators.",
+          "A basic stack navigator is implemented.",
+          "A placeholder HomeScreen is defined as the initial route."
+        ],
+        "complexity": "Medium"
+      },
+      {
+        "title": "Implement HomeScreen UI Layout",
+        "description": "Build the static layout for the HomeScreen as per the design spec, including placing the mascot image, title, subtitle, and button container. This ticket focuses on structure, not component logic.",
+        "priority": "High",
+        "dependencies": [
+          "Initial Project Setup and Navigation"
+        ],
+        "acceptance_criteria": [
+          "The screen uses a SafeAreaView to avoid notches.",
+          "The app mascot, title, and subtitle are displayed in the correct positions.",
+          "A container for the game mode selection buttons is present."
+        ],
+        "complexity": "Low"
+      },
+      {
+        "title": "Create Reusable PrimaryButton Component",
+        "description": "Develop the `PrimaryButton` component with styling and animations defined in the design spec. It should be reusable and accept props for title, icon, and onPress actions.",
+        "priority": "High",
+        "dependencies": [
+          "Implement HomeScreen UI Layout"
+        ],
+        "acceptance_criteria": [
+          "Component matches the design spec's `code_snippet` for styling (colors, padding, shadow, etc.).",
+          "An `Animated.spring` effect scales the button to 0.98 on press for tactile feedback.",
+          "The button correctly displays a title and an optional icon.",
+          "The `onPress` prop is called when the button is tapped."
+        ],
+        "complexity": "Medium"
+      },
+      {
+        "title": "Integrate Buttons and Navigation on HomeScreen",
+        "description": "Integrate the `PrimaryButton` components into the HomeScreen layout and wire up their `onPress` handlers to navigate to the GameBoardScreen, passing the selected game mode (e.g., 'vs-friend' or 'vs-coach').",
+        "priority": "High",
+        "dependencies": [
+          "Create Reusable PrimaryButton Component"
+        ],
+        "acceptance_criteria": [
+          "HomeScreen displays 'Play vs. Friend' and 'Play vs. Coach' buttons.",
+          "Tapping 'Play vs. Friend' navigates to the GameBoardScreen with the two-player mode selected.",
+          "Tapping 'Play vs. Coach' navigates to the GameBoardScreen with the single-player mode selected."
+        ],
+        "complexity": "Low"
+      }
+    ]
+  },
+  {
+    "milestone": "Milestone 2: Core Game Logic & Board UI",
+    "tickets": [
+      {
+        "title": "Implement GameBoardScreen Layout",
+        "description": "Create the basic structure for the GameBoardScreen, including the player turn indicator area and the 3x3 grid container, as per the wireframe.",
+        "priority": "High",
+        "dependencies": [
+          "Integrate Buttons and Navigation on HomeScreen"
+        ],
+        "acceptance_criteria": [
+          "A new screen component, GameBoardScreen, is created and accessible via navigation.",
+          "The layout contains placeholders for the PlayerTurnIndicator and the 3x3 game board.",
+          "The screen correctly receives the game mode parameter from the HomeScreen."
+        ],
+        "complexity": "Low"
+      },
+      {
+        "title": "Create Interactive GameBoardCell Component",
+        "description": "Develop the `GameBoardCell` component. This includes styling for empty, 'X', and 'O' states, tap handling, and the 'pop' placement animation.",
+        "priority": "High",
+        "dependencies": [
+          "Implement GameBoardScreen Layout"
+        ],
+        "acceptance_criteria": [
+          "Cell styling matches the `code_snippet` from the design spec.",
+          "The component can display 'X', 'O', or nothing based on a prop.",
+          "Placing a marker triggers a satisfying `Animated.spring` scale-up animation.",
+          "The `onPress` callback is invoked only when the cell is empty."
+        ],
+        "complexity": "Medium"
+      },
+      {
+        "title": "Develop Core Tic Tac Toe State Management",
+        "description": "Implement the client-side logic to manage the game state. This includes the 3x3 board array, tracking the current player's turn, and handling player moves.",
+        "priority": "High",
+        "dependencies": [
+          "Create Interactive GameBoardCell Component"
+        ],
+        "acceptance_criteria": [
+          "A state variable holds the 3x3 grid's values (null, 'X', or 'O').",
+          "A state variable tracks the current turn ('X' or 'O').",
+          "Tapping an empty `GameBoardCell` updates the grid state with the current player's marker.",
+          "After a move, the turn correctly switches to the other player."
+        ],
+        "complexity": "Medium"
+      },
+      {
+        "title": "Implement PlayerTurnIndicator Component",
+        "description": "Build the `PlayerTurnIndicator` UI that visually highlights the active player. It should smoothly animate transitions between players as defined in the design spec.",
+        "priority": "Medium",
+        "dependencies": [
+          "Develop Core Tic Tac Toe State Management"
+        ],
+        "acceptance_criteria": [
+          "Component displays both player markers ('X' and 'O').",
+          "The active player's marker is scaled up, opaque, and has a background color, while the inactive player is scaled down and semi-transparent.",
+          "The transition between active states is smoothly animated using `LayoutAnimation` or a similar library."
+        ],
+        "complexity": "Medium"
+      },
+      {
+        "title": "Implement Win/Draw Detection Logic",
+        "description": "Create the logic to check the game state after each move to determine if a win, loss, or draw condition has been met.",
+        "priority": "High",
+        "dependencies": [
+          "Develop Core Tic Tac Toe State Management"
+        ],
+        "acceptance_criteria": [
+          "The function correctly identifies a winning condition for 'X' or 'O' across all 8 possible lines (3 rows, 3 columns, 2 diagonals).",
+          "The function correctly identifies a draw when all cells are filled and there is no winner.",
+          "The game state is updated to reflect the outcome (e.g., 'X_WINS', 'DRAW').",
+          "Player input is disabled once the game is over."
+        ],
+        "complexity": "Medium"
+      }
+    ]
+  },
+  {
+    "milestone": "Milestone 3: Game Over Flow & Feedback",
+    "tickets": [
+      {
+        "title": "Implement GameOverModal UI Shell",
+        "description": "Build the `GameOverModal` component, including the semi-transparent overlay and the modal container, styled according to the design spec. The modal should appear/disappear based on a `visible` prop.",
+        "priority": "High",
+        "dependencies": [
+          "Implement Win/Draw Detection Logic"
+        ],
+        "acceptance_criteria": [
+          "The modal renders on top of the GameBoardScreen.",
+          "It includes a semi-transparent overlay that covers the entire screen.",
+          "The modal container styling matches the `code_snippet` (background, border radius, shadow).",
+          "The modal's entrance and exit are animated (fade and scale)."
+        ],
+        "complexity": "Medium"
+      },
+      {
+        "title": "Integrate Game Over Logic with Modal",
+        "description": "Connect the game's win/draw state to the `GameOverModal`. The modal should automatically appear when the game ends and display the correct result text (e.g., 'You Won!', 'It's a Draw!').",
+        "priority": "High",
+        "dependencies": [
+          "Implement GameOverModal UI Shell"
+        ],
+        "acceptance_criteria": [
+          "The modal becomes visible when the game state is 'X_WINS', 'O_WINS', or 'DRAW'.",
+          "The title text in the modal dynamically changes to reflect the game outcome.",
+          "The modal includes placeholders for the action buttons ('Play Again', 'Main Menu')."
+        ],
+        "complexity": "Low"
+      },
+      {
+        "title": "Create ResultAnimation (Lottie) Component",
+        "description": "Create a component to display a Lottie animation. It should be able to load different animation files based on the game's outcome (win, draw, lose).",
+        "priority": "Medium",
+        "dependencies": [
+          "Integrate Game Over Logic with Modal"
+        ],
+        "acceptance_criteria": [
+          "The component successfully wraps `lottie-react-native`.",
+          "It displays a 'win' animation (e.g., confetti) if the player wins.",
+          "It displays a different, neutral or sad, animation for a draw or loss.",
+          "The animation auto-plays once when the modal appears."
+        ],
+        "complexity": "Medium"
+      },
+      {
+        "title": "Add 'Play Again' and 'Main Menu' Functionality",
+        "description": "Implement the logic for the 'Play Again' and 'Main Menu' buttons inside the `GameOverModal` using the reusable `PrimaryButton` component.",
+        "priority": "High",
+        "dependencies": [
+          "Integrate Game Over Logic with Modal"
+        ],
+        "acceptance_criteria": [
+          "Tapping 'Play Again' closes the modal and resets the game board state for a new game.",
+          "Tapping 'Main Menu' closes the modal and navigates the user back to the HomeScreen.",
+          "Buttons are styled correctly and provide user feedback on press."
+        ],
+        "complexity": "Low"
+      }
+    ]
+  },
+  {
+    "milestone": "Milestone 4: AI Coach Implementation",
+    "tickets": [
+      {
+        "title": "Develop AI Opponent Logic",
+        "description": "Create the algorithm for the AI opponent. Start with a simple strategy: 1) Win if possible, 2) Block opponent's win, 3) Make a random valid move.",
+        "priority": "High",
+        "dependencies": [
+          "Implement Win/Draw Detection Logic"
+        ],
+        "acceptance_criteria": [
+          "The AI function takes the current board state and returns the coordinates of its next move.",
+          "The AI will make a winning move if one is available.",
+          "The AI will block the player from winning on their next turn if a block is available.",
+          "If no winning or blocking move exists, the AI chooses a valid empty cell."
+        ],
+        "complexity": "High"
+      },
+      {
+        "title": "Integrate AI Player into Game Loop",
+        "description": "In single-player mode ('vs-coach'), integrate the AI logic so that it automatically makes a move after the human player's turn.",
+        "priority": "High",
+        "dependencies": [
+          "Develop AI Opponent Logic"
+        ],
+        "acceptance_criteria": [
+          "When the game mode is 'vs-coach', the app waits for the player's move.",
+          "After the player moves, the AI logic is triggered.",
+          "The board state is updated with the AI's move after a short, artificial delay (e.g., 500ms) to simulate thinking.",
+          "The turn switches back to the human player."
+        ],
+        "complexity": "Medium"
+      },
+      {
+        "title": "Implement AI Hint Logic",
+        "description": "Develop the logic for the AI Coach's hint feature. The hint should identify the best possible move for the player (either a winning move or a blocking move).",
+        "priority": "Medium",
+        "dependencies": [
+          "Develop AI Opponent Logic"
+        ],
+        "acceptance_criteria": [
+          "A function is created that analyzes the board and identifies the optimal move for the current player.",
+          "The hint is only generated in 'vs-coach' mode.",
+          "The hint is triggered after a period of player inactivity (e.g., 5 seconds)."
+        ],
+        "complexity": "Medium"
+      },
+      {
+        "title": "Display AI Hints on the GameBoardCell",
+        "description": "Implement the visual feedback for the AI hint on the `GameBoardCell` component, making the suggested cell glow or pulse as per the design spec.",
+        "priority": "Medium",
+        "dependencies": [
+          "Implement AI Hint Logic"
+        ],
+        "acceptance_criteria": [
+          "The `GameBoardCell` component accepts an `isHinted` prop.",
+          "When `isHinted` is true, the cell displays a glowing shadow effect.",
+          "The shadow's opacity animates in a loop to create a 'pulsing' effect.",
+          "The hint is removed after the player makes any move."
+        ],
+        "complexity": "Medium"
+      }
+    ]
+  }
+]

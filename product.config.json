@@ -1,0 +1,5 @@
+{
+  "name": "3T - Kids Tic Tac Toe",
+  "vision": "Build a colorful, child-friendly Tic Tac Toe app (called 3T) in React Native for iPhone, iPad, and Android. It should be easy for young children to play, use fun graphics and sounds, and include a helpful AI coach to encourage learning and social play. The app should support single-player and two-player modes, quick feedback, and gentle win/loss animations.",
+  "output_dir": "docs/product"
+}
