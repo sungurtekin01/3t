@@ -3,6 +3,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { GameBoardCell } from '../components/game/GameBoardCell';
 import { PlayerTurnIndicator } from '../components/game/PlayerTurnIndicator';
+import { GameOverModal } from '../components/game/GameOverModal';
 import { useGameStore } from '../stores/gameStore';
 import { useTheme } from '../hooks/useTheme';
 
@@ -50,17 +51,12 @@ export function GameBoardScreen() {
           )}
         </View>
 
-        {/* Debug status (will be replaced with modal in M3) */}
-        {gameStatus !== 'playing' && (
-          <View style={styles.statusContainer}>
-            <Text style={{ color: theme.textColor, fontSize: 24, marginBottom: 10 }}>
-              {gameStatus === 'DRAW' ? "It's a Draw!" : `Player ${gameStatus.split('_')[0]} Wins!`}
-            </Text>
-            <Pressable onPress={resetGame} style={styles.resetButton}>
-              <Text style={styles.resetButtonText}>Play Again</Text>
-            </Pressable>
-          </View>
-        )}
+        {/* Game Over Modal */}
+        <GameOverModal
+          visible={gameStatus !== 'playing'}
+          gameStatus={gameStatus}
+          onPlayAgain={resetGame}
+        />
       </View>
     </SafeAreaView>
   );
@@ -76,13 +72,4 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     maxWidth: 500,
   },
-  statusContainer: { marginTop: 30, alignItems: 'center' },
-  resetButton: {
-    backgroundColor: '#7F5AF0',
-    paddingHorizontal: 30,
-    paddingVertical: 15,
-    borderRadius: 20,
-    marginTop: 15,
-  },
-  resetButtonText: { color: 'white', fontSize: 18, fontWeight: 'bold' },
 });
